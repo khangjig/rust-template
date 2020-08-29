@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package profanity;
+
+service Profanity {
+  rpc sensor_profanity (ProfanityRequest) returns (ProfanityResponse);
+}
+
+message ProfanityRequest {
+  string text = 1;
+}
+
+message ProfanityResponse {
+  string text = 1;
+}
