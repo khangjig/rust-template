@@ -7,6 +7,8 @@ use grpc::{ServerHandlerContext, ServerRequestSingle, ServerResponseUnarySink};
 use proto::profanity::*;
 use proto::profanity_grpc::*;
 
+use crate::common::profanity::sensor_profanity;
+
 mod model;
 mod api;
 mod common;
@@ -21,12 +23,14 @@ impl Profanity for ProfanityServiceImpl {
     fn sensor_profanity(
         &self,
         _o: ServerHandlerContext,
-        mut _req: ServerRequestSingle<ProfanityRequest>,
-        mut _resp: ServerResponseUnarySink<ProfanityResponse>,
+        req: ServerRequestSingle<ProfanityRequest>,
+        resp: ServerResponseUnarySink<ProfanityResponse>,
     ) -> grpc::Result<()> {
-        // ????
-
-        Ok(())
+        resp.finish(ProfanityResponse {
+            text: sensor_profanity(&req.message.text),
+            unknown_fields: Default::default(),
+            cached_size: Default::default(),
+        })
     }
 }
 
